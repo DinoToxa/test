@@ -23,4 +23,11 @@ def ban_user(message):
     else:
         bot.reply_to(message, "Эта команда должна быть использована в ответ на сообщение пользователя, которого вы хотите забанить.")
 
+# Исправлено: хэндлер должен быть на уровне других функций
+@bot.message_handler(func=lambda message: True)
+def check_links(message):
+    if "https://" in message.text:
+        user_id = message.from_user.id
+        bot.ban_chat_member(message.chat.id, user_id)
+
 bot.infinity_polling(none_stop=True)
